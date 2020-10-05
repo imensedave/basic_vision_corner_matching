@@ -180,3 +180,44 @@ if( mm > 0 )
     
     
 end
+
+
+
+% apply a  median flow filter style thing.
+
+if( mm > 10 )
+    [good_pts] = median_flow_filter(matches, pts, pts2, 0);
+    
+    gidx = zeros(size(pts,1),1);
+    gidx(good_pts(:) ) = 1;
+    
+    
+    figure( pflag +4 );
+    imagesc( cim )
+    colormap gray
+    hold on
+    nu = min(mm,4000);
+    for z=1:nu
+        if( gidx(z) > 0 )
+            rc1 = pts(matches(z,1),1:2);
+            rc2 = pts2(matches(z,2),1:2);
+        
+            plot( [rc1(2);rc2(2)], [rc1(1);rc2(1)],'b' );
+        
+            plot( rc1(2), rc1(1),'g+' );
+        else
+            rc1 = pts(matches(z,1),1:2);
+            rc2 = pts2(matches(z,2),1:2);
+        
+            plot( [rc1(2);rc2(2)], [rc1(1);rc2(1)],'r' );
+        
+            plot( rc1(2), rc1(1),'rx' );
+            
+        end
+    end
+    
+    plot( pts2(:,2), pts2(:,1),'w+' );
+    
+end
+    
+    hold off
